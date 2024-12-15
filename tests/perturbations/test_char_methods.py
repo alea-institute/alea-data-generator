@@ -1,12 +1,16 @@
 import pytest
 
 from alea_data_generator.data.constants.keyboard import KEY_ERROR_MAPPING
+from alea_data_generator.data.constants.ocr import OCR_ERROR_MAPPING
 from alea_data_generator.perturbations.errors.config import ErrorConfig, ErrorSampleType
 from alea_data_generator.perturbations.errors.methods.double_character import (
     DoubleCharacterErrorMethod,
 )
 from alea_data_generator.perturbations.errors.methods.keyboard_character import (
     KeyboardCharacterErrorMethod,
+)
+from alea_data_generator.perturbations.errors.methods.ocr_character import (
+    OCRCharacterErrorMethod,
 )
 from alea_data_generator.perturbations.errors.methods.skip_character import (
     SkipCharacterErrorMethod,
@@ -136,5 +140,38 @@ def test_keyboard_character_specific_positions():
     for i, (original, modified) in enumerate(zip(input_string, result)):
         if i in [1, 3]:
             assert modified in KEY_ERROR_MAPPING.get(original, [])
+        else:
+            assert original == modified
+
+
+def test_ocr_character_method(error_config):
+    method = OCRCharacterErrorMethod(error_config)
+    input_string = "hello world"
+    result = method.execute(input_string)
+    assert len(result) == len(input_string)
+    assert result != input_string
+
+    # Check if the changes are valid keyboard substitutions
+    for original, modified in zip(input_string, result):
+        if original != modified:
+            assert modified in OCR_ERROR_MAPPING.get(original, [])
+
+
+def test_ocr_character_specific_positions():
+    config = ErrorConfig(
+        error_sample_type=ErrorSampleType.FIXED_COUNT,
+        distribution_kwargs={"count": 2},
+        seed=42,
+    )
+    method = OCRCharacterErrorMethod(config)
+    input_string = "abcdef"
+    result = method.apply_error(input_string, [2, 4])
+    assert len(result) == len(input_string)
+    assert result != input_string
+
+    # Check if the changes are at the correct positions and are valid substitutions
+    for i, (original, modified) in enumerate(zip(input_string, result)):
+        if i in [2, 4]:
+            assert modified in OCR_ERROR_MAPPING.get(original, [])
         else:
             assert original == modified
