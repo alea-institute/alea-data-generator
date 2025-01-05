@@ -18,6 +18,18 @@ from alea_data_generator.perturbations.errors.methods.skip_character import (
 from alea_data_generator.perturbations.errors.methods.transpose_character import (
     TransposeCharacterErrorMethod,
 )
+from alea_data_generator.perturbations.errors.methods.swap_character import (
+    SwapCharacterErrorMethod,
+)
+from alea_data_generator.perturbations.errors.methods.whitespace_add import (
+    WhitespaceAddErrorMethod,
+)
+from alea_data_generator.perturbations.errors.methods.whitespace_remove import (
+    WhitespaceRemoveErrorMethod,
+)
+from alea_data_generator.perturbations.errors.methods.whitespace_copy import (
+    WhitespaceCopyErrorMethod,
+)
 
 
 @pytest.fixture
@@ -175,3 +187,37 @@ def test_ocr_character_specific_positions():
             assert modified in OCR_ERROR_MAPPING.get(original, [])
         else:
             assert original == modified
+
+
+# test swap character
+def test_swap_character_method(error_config):
+    method = SwapCharacterErrorMethod(error_config)
+    input_string = "hello world"
+    result = method.execute(input_string)
+    assert len(result) == len(input_string)
+    assert result != input_string
+
+
+# test whitespace methods
+def test_whitespace_add_method(error_config):
+    method = WhitespaceAddErrorMethod(error_config)
+    input_string = "hello world"
+    result = method.execute(input_string)
+    assert len(result) > len(input_string) + 1
+    assert result != input_string
+
+
+def test_whitespace_remove_method(error_config):
+    method = WhitespaceRemoveErrorMethod(error_config)
+    input_string = "hello world"
+    result = method.execute(input_string)
+    assert len(result) < len(input_string)
+    assert result != input_string
+
+
+def test_whitespace_copy_method(error_config):
+    method = WhitespaceCopyErrorMethod(error_config)
+    input_string = "hello world"
+    result = method.execute(input_string)
+    assert len(result) > len(input_string) + 1
+    assert result != input_string
