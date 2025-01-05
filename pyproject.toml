@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "alea-data-generator"
-version = "0.1.1"
+version = "0.1.2"
 description = "ALEA low-level data generation techniques (procedural, KL3M)"
 authors = ["ALEA Institute <hello@aleainstitute.ai>"]
 license = "MIT"
@@ -34,13 +34,13 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0.0"
-faker = "^28.4.1"
-numpy = "^2.1.1"
-scipy = "^1.14.1"
-rapidfuzz = "^3.9.7"
-tqdm = "^4.66.5"
-jinja2 = "^3.1.4"
-httpx = {extras = ["http2"], version = "^0.27.2"}
+faker = ">=28.4.1"
+numpy = ">=2.1.1"
+scipy = ">=1.15.0"
+rapidfuzz = ">=3.9.7"
+tqdm = ">=4.66.5"
+jinja2 = ">=3.1.4"
+httpx = {extras = ["http2"], version = ">=0.27.1"}
 
 
 [tool.poetry.group.dev.dependencies]
@@ -73,7 +73,8 @@ disable = [
     "line-too-long",
     "too-few-public-methods",
     "no-self-argument",
-    "cyclic-import"
+    "cyclic-import",
+    "duplicate-code"
 ]
 extension-pkg-allow-list = ["lxml"]
 ignore-patterns = ["test_.*?.py", "conftest.py"]
