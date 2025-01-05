@@ -48,7 +48,7 @@ class BaseWordErrorMethod(BaseErrorMethod):
         """
         self.input_string = input_string
         words = input_string.split()
-        positions = self.get_positions(len(words))
+        positions = self.get_positions(len(words), input_string)
         return self.apply_error(words, positions)
 
     @abstractmethod

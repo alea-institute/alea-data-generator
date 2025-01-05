@@ -5,7 +5,7 @@ Base class for error methods.
 # imports
 import random
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 
 # packages
 import numpy.random
@@ -63,7 +63,10 @@ class BaseErrorMethod(ABC):
             List of indices.
         """
 
-    def get_positions(self, length: int) -> List[int]:
+    # pylint: disable=unused-argument
+    def get_positions(
+        self, length: int, input_string: Optional[str] = None
+    ) -> List[int]:
         """
         Get the positions to apply the error to based on the error configuration.
 
@@ -78,6 +81,7 @@ class BaseErrorMethod(ABC):
 
         Args:
             length: Length of the input string.
+            input_string: Input string, which may be required by some override methods.
 
         Returns:
             List of positions.
