@@ -2,12 +2,14 @@
 Base class for character-level error methods.
 """
 
+# pylint: disable=duplicate-code
+
 # imports
 from typing import List
 
-from alea_data_generator.perturbations.errors.config import ErrorConfig
 
-# local imports
+# project
+from alea_data_generator.perturbations.errors.config import ErrorConfig
 from alea_data_generator.perturbations.errors.methods.base import BaseErrorMethod
 
 
@@ -46,7 +48,7 @@ class BaseCharacterErrorMethod(BaseErrorMethod):
             Modified string with applied errors.
         """
         self.input_string = input_string
-        positions = self.get_positions(len(input_string))
+        positions = self.get_positions(len(input_string), input_string)
         return self.apply_error(input_string, positions)
 
     def apply_error(self, input_string: str, positions: List[int]) -> str:
