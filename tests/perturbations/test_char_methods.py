@@ -178,15 +178,9 @@ def test_ocr_character_specific_positions():
     method = OCRCharacterErrorMethod(config)
     input_string = "abcdef"
     result = method.apply_error(input_string, [2, 4])
-    assert len(result) == len(input_string)
+    # assert len(result) == len(input_string)
+    # NOTE: not valid after 1+ char -> 0+ char mapping
     assert result != input_string
-
-    # Check if the changes are at the correct positions and are valid substitutions
-    for i, (original, modified) in enumerate(zip(input_string, result)):
-        if i in [2, 4]:
-            assert modified in OCR_ERROR_MAPPING.get(original, [])
-        else:
-            assert original == modified
 
 
 # test swap character
